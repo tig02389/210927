@@ -1,1 +1,0 @@
-jquery_ajax/hello.txt Hello, World
