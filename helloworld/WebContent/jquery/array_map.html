@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery/array_map.html</title>
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+            const apple = {
+                name: 'apple',
+                price: 1000
+            }
+            const banana = {
+                name: 'banana',
+                price: 2000
+            }
+            const cherry = {
+                name: 'cherry',
+                price: 3000
+            }
+            const fruits = [apple, banana, cherry];
+            
+           $(document).ready(function (){
+               // map : true/false 상관없이 값을 변환.
+            let newFruits =  $.map(fruits, function(obj, ind) {
+                   let newFruit = {}
+                   newFruit.fruitsName = obj.name;
+                   newFruit.fruitPrice = obj.price;
+                   newFruit.fruitOrder = ind;
+                    
+                   return newFruit;
+                });
+                //grep : true 값만 반환.    //해당값이 true면 해당 오브젝트 값이 리턴된다.
+                let otherFruits = $.grep(newFruits, function(obj, ind){
+                    if(ind > 1){
+                        return true;
+                    }
+                    // return !obj; //0, 1, 2
+                });
+                $(otherFruits).each(function (idx, obj){
+                    console.log(obj);
+                });
+       
+            
+        });
+    </script>
+</head>
+<body>
+    <div id="show"></div>
+    
+
+</body>
+</html>

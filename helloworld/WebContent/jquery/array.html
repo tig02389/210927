@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery/array.html</title>
+    <script src="../jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id ="show"></div>
+    <script>
+        
+        function Member(id, name, phone){
+            this.id = id;
+            this.name = name;
+            this.phone = phone;
+        }
+        const members = [new Member('user1', '홍길동', '1234')];
+        members.push(new Member('user2', '김민주', '4567'));
+        members.push(new Member('user3', '설민석', '3456'));
+
+        let table = document.createElement('table');
+        table.setAttribute('border','1');
+        let tbody = document.createElement('tbody');
+
+        //관계설정
+        table.appendChild(tbody);
+        document.getElementById('show').appendChild(table);
+        members.forEach(function(obj,ind){
+            let tr = document.createElement('tr');
+            for(let filed in obj){
+                let td = document.createElement('td');
+                td.innerHTML = obj[filed];
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+
+        });
+        
+        //jquery :(1)
+        // $('tr').each(function (ind, obj){         //쿼리에서는 첫번째가 인덱스고 두번째가 오브젝트이다.
+        //     console.log($(obj));
+        //     $(obj).click(function(){
+        //         window.alert($(this).children().eq(1).text());
+        //     });
+        //     $(this).mouseover(function (){      // $this =>tr태그 
+        //         $(this).css('background-color', 'yellow');
+        //     });
+        //     $(this).mouseout(function (){
+        //         $(this).css('background-color', 'white');
+        //     });
+        // });
+        //jquery : (2) => 라이브 이벤트 등록.
+        $('table').on('click','tr', function(event){
+            // console.log($(event.target).parent())
+            window.alert($(event.target).parent().children().eq(1).html());
+        });
+
+        $('table').on('mouseover','tr', function(event){
+            // console.log($(event.target).parent())
+            $(event.target).parent().css('background-color', 'yellow');
+        });
+
+        $('table').on('mouseout','tr', function(event){
+            // console.log($(event.target).parent())
+            $(event.target).parent().css('background-color', '');
+        });
+
+        //$(members).each();
+        $.each(members, function(idx, obj){
+            console.log(idx, obj);
+            let $tr = $('<tr />').append(
+                $('<td />').html(obj.id)//
+                ,$('<td />').html(obj.name) //
+                ,$('<td />').html(obj.phone)
+            );
+            //$(table).append($tr);
+            table.appendChild($tr.get(0));  //get() : jquery -> javascript
+            
+
+        })
+    </script>
+
+</body>
+</html>
