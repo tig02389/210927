@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: 'get.json',
+                // type: 'get',
+                // data: 'id=user',
+                // dataType: 'json',
+                success: showData,
+                error: function (reject) {
+                    console.error(reject.statusText);
+
+                }
+            });
+        })
+
+        function showData(data) {
+            console.log(data)
+            let table, tbody, tr, td;
+            table = $('<table />').attr({
+                'border': '1',
+                'id': 'tb1'
+            });
+            tbody = $('<tbody />');
+            $(table).append(tbody);
+            for(let row of data){
+                tr = $('<tr />').append(
+                    $('<td />').html(row.id),
+                    $('<td />').html(row.first_name),
+                    $('<td />').html(row.last_name),
+                    $('<td />').html(row.email),
+                    $('<td />').html(row.gender)
+                )
+                $(tbody).append(tr)
+            }
+            $('#show').append(table)
+        }
+    </script>
+</head>
+
+<body>
+    <div id="show">
+
+    </div>
+</body>
+
+</html>
