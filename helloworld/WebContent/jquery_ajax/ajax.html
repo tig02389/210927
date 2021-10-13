@@ -20,6 +20,7 @@
 
                 }
             });
+
         })
 
         function showData(data) {
@@ -29,9 +30,12 @@
                 'border': '1',
                 'id': 'tb1'
             });
+            tbody = '<thead><tr><th>ID</th><th>FName</th><th>LName</th><th>EMail</th><th>GENDER</th>'
+            $(table).append(tbody);
             tbody = $('<tbody />');
             $(table).append(tbody);
-            for(let row of data){
+
+            for (let row of data) {
                 tr = $('<tr />').append(
                     $('<td />').html(row.id),
                     $('<td />').html(row.first_name),
@@ -47,9 +51,56 @@
 </head>
 
 <body>
+    <form action="a.html" style="border:1px solid red" onsubmit="submitFrm(event)">
+        ID : <input type="number" name="userid" id="userid"><br>
+        FName : <input type="text" name="FName" id="FName"><br>
+        LName : <input type="text" name="LName" id="LName"><br>
+        EMail : <input type="text" name="EMail" id="EMail"><br>
+        GENDER : <input type="radio" name="GENDER" id="male" value="Male" checked><label for="male"> Male</label>
+        <input type="radio" name="GENDER" id="Female" value="FeMale"><label for="Female">Female</label><br>
+        <input type="submit" value="Save">
+        <input type="reset" value="Reset">
+    </form>
     <div id="show">
 
     </div>
+    <script>
+        function submitFrm(e) {
+            e.preventDefault();
+            let id = $('#userid').val();
+            let fname = $('#FName').val();
+            let lname = $('#LName').val();
+            let email = $('#EMail').val();
+            let gender = $('input[name="GENDER"]:checked').val();
+
+            $.ajax({
+                url: '입력서블릿',
+                type: 'post',
+                data: {
+                    id: id,
+                    fname: fname,
+                    lname: lname,
+                    email: email,
+                    gender: gender
+                },
+                dataType: 'json',
+                success: function (result) {
+
+                },
+                error: function (result) {
+                    let tr = $('<tr />').append(
+                        $('<td />').html(id),
+                        $('<td />').html(fname),
+                        $('<td />').html(lname),
+                        $('<td />').html(email),
+                        $('<td />').html(gender)
+                    )
+                    $('#tb1>tbody').append(tr);
+                    // console.error(result.statusText);
+                }
+            })
+        }
+    </script>
 </body>
 
 </html>
